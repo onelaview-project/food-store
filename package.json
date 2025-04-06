@@ -1,0 +1,24 @@
+{
+  "name": "food-store",
+  "private": true,
+  "scripts": {
+    "seed": "turbo run seed --filter=@food-store/api...",
+    "build": "turbo run build",
+    "start:dev": "turbo run start:dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.5.0",
+    "typescript": "5.8.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.9.2",
+  "workspaces": [
+    "apps/*"
+  ]
+}
