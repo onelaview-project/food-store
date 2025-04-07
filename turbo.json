@@ -14,8 +14,9 @@
       "dependsOn": ["^test"]
     },
     "start:dev": {
-      "cache": false,
-      "persistent": true
+      "with": ["@food-store/api#start:dev"],
+      "persistent": true,
+      "cache": false
     },
     "seed": {
       "cache": false

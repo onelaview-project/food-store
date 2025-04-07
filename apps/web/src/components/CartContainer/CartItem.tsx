@@ -21,20 +21,20 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         className="flex-none w-14 h-14 rounded-lg object-cover"
         src={product.imageUrl}
       />
-      <div className="flex-1 flex flex-col w-36">
+      <div className="flex-1 flex flex-col w-47">
         <span className="font-medium text-gray-800">{product.name}</span>
         <span className="text-gray-500 text-sm">${product.price}</span>
       </div>
       <div className="flex-1 flex items-center ml-auto gap-2">
         <button
-          className="bg-blue-300 text-white w-8 h-8 rounded-full text-lg"
+          className="bg-blue-300 hover:bg-blue-600 text-white w-8 h-8 rounded-full text-lg transition-colors duration-300"
           onClick={() => removeFromCart(product.id)}
         >
           -
         </button>
         <span className="w-6 text-center">{quantity}</span>
         <button
-          className="bg-blue-300 text-white w-8 h-8 rounded-full text-lg"
+          className="bg-blue-300 hover:bg-blue-600 text-white w-8 h-8 rounded-full text-lg transition-colors duration-300"
           onClick={() => addToCart(product.id)}
         >
           +

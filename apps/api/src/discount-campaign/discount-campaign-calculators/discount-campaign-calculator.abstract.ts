@@ -1,4 +1,4 @@
-import { OrderItemEntity } from 'order/order-item.entity';
+import { OrderItemEntity } from 'order/entities/order-item.entity';
 
 // An abstract class that defines the contract for discount campaign calculators.
 export abstract class DiscountCampaignCalculatorAbstract {

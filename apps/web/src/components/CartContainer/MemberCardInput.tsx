@@ -10,7 +10,8 @@ const MemberCardInput: React.FC = () => {
     <div className="flex flex-col p-2 my-2">
       <label htmlFor="member-number">Card Number</label>
       <input
-        className="border-1"
+        className="border-1 border-gray-300 rounded-2xl shadow-md p-1"
+        type="text"
         id="member-number"
         value={memberNumber}
         onChange={(event) => setMemberNumber(event.target.value)}

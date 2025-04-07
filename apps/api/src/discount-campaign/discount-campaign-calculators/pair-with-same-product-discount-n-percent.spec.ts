@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PairWithSameProductDiscountNPercentCalculator } from './pair-with-same-product-discount-n-percent';
-import { OrderItemEntity } from 'order/order-item.entity';
+import { OrderItemEntity } from 'order/entities/order-item.entity';
 
 describe('PairWithSameProductDiscountNPercentCalculator', () => {
   let calculator: PairWithSameProductDiscountNPercentCalculator;

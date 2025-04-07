@@ -1,39 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { OrderItemEntity } from './order-item.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { OrderItemEntity } from './entities/order-item.entity';
 import { DiscountService } from '../discount/discount.service';
-
-export interface CalculateOrderPriceInput {
-  memberCardNumber: string | null;
-  items: OrderItemEntity[];
-}
-
-interface DiscountItem {
-  productId: string;
-  discount: number;
-}
-
-export interface CalculateOrderPriceOutput {
-  totalPriceBeforeDiscount: number;
-  discountFromMemberCard: number;
-  discountItems: DiscountItem[];
-}
+import Redis from 'ioredis';
+import { OrderEntity } from './entities/order.entity';
+import { CalculateOrderPriceOutputDto } from './dtos/calculate-order-price-output.dto';
+import { DiscountItemOutputDto } from './dtos/discount-item-output.dto';
+import { ProductNotAvailableError } from './errors/product-not-available-error';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly discountService: DiscountService) {}
+  constructor(
+    private readonly discountService: DiscountService,
+    @Inject('REDIS_CLIENT') private readonly redis: Redis,
+  ) {}
 
-  calculateOrderPrice(
-    input: CalculateOrderPriceInput,
-  ): CalculateOrderPriceOutput {
+  calculateOrderPrice(order: OrderEntity): CalculateOrderPriceOutputDto {
     const totalPriceBeforeDiscount = this.#calculateTotalPriceBeforeDiscount(
-      input.items,
+      order.items,
     );
 
     const [discountItems, totalDiscountPrice] =
-      this.#calculateDiscountItemsAndTotalDiscountPrice(input.items);
+      this.#calculateDiscountItemsAndTotalDiscountPrice(order.items);
 
     // TODO: Move this to discount service
-    const discountFromMemberCard = input.memberCardNumber
+    const discountFromMemberCard = order.memberCardNumber
       ? (totalPriceBeforeDiscount - totalDiscountPrice) * 0.1
       : 0;
 
@@ -44,6 +34,19 @@ export class OrderService {
     };
   }
 
+  async placeOrder(order: OrderEntity) {
+    const RED_SET_PRODUCT_ID = '67f0f3549aa2cccf1c80ebf1';
+    if (order.items.find((item) => item.product.id === RED_SET_PRODUCT_ID)) {
+      if (await this.redis.get('order:red_set')) {
+        throw new ProductNotAvailableError(
+          'Red set product is currently out of stock',
+        );
+      }
+
+      await this.redis.set('order:red_set', 1, 'EX', 60 * 60); // 1 hour
+    }
+  }
+
   #calculateTotalPriceBeforeDiscount(items: OrderItemEntity[]): number {
     return items.reduce((total, item) => {
       return total + item.product.price * item.quantity;
@@ -52,7 +55,7 @@ export class OrderService {
 
   #calculateDiscountItemsAndTotalDiscountPrice(
     items: OrderItemEntity[],
-  ): [DiscountItem[], number] {
+  ): [DiscountItemOutputDto[], number] {
     let totalDiscountPrice = 0;
 
     const discountItems = items

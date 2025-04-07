@@ -1,23 +1,26 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import CartPriceSummaryContainer from "./components/CartPriceSummaryContainer/CartPriceSummaryContainer";
 import { ProductsProvider } from "./context/products-context/products-provider";
-import { ShoppingCartProvider } from "./context/shopping-cart-context/shopping-cart-provider";
+import {
+  ShoppingCartProvider,
+  ShoppingCartRef,
+} from "./context/shopping-cart-context/shopping-cart-provider";
 import { ShoppingCart } from "./context/shopping-cart-context/shopping-cart-context";
-import { useCalculateShoppingCartPrice } from "./hooks/useCalculateShoppingCartPrice";
+import { useCalculateShoppingCartPriceQuery } from "./hooks/useCalculateShoppingCartPriceQuery";
 import CartContainer from "./components/CartContainer/CartContainer";
+import Loading from "./components/common/Loading";
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState<ShoppingCart | undefined>(
     undefined,
   );
+  const shoppingCartRef = useRef<ShoppingCartRef>({} as ShoppingCartRef);
 
-  const { shoppingCartPrice } = useCalculateShoppingCartPrice(shoppingCart);
+  const { shoppingCartPrice, isFetching: isCalculatingCartPrice } =
+    useCalculateShoppingCartPriceQuery(shoppingCart);
 
   const handleCalculate = (shoppingCart: ShoppingCart) => {
-    console.log("Calculating price...");
-    console.log("Member Number:", shoppingCart.memberCardNumber);
-    console.log("Cart Items:", shoppingCart.items);
     setShoppingCart(shoppingCart);
   };
 
@@ -25,11 +28,20 @@ function App() {
     setShoppingCart(undefined);
   };
 
+  const handlePlaceOrder = () => {
+    setShoppingCart(undefined);
+    shoppingCartRef.current.resetCard();
+  };
+
   return (
     <ProductsProvider>
       {({ products, isPending, error }) => {
         if (isPending) {
-          return <div className="text-3xl text-center">Loading...</div>;
+          return (
+            <div className="flex items-center justify-center h-screen">
+              <Loading />;
+            </div>
+          );
         }
 
         if (error) {
@@ -43,14 +55,23 @@ function App() {
                 products={products ?? []}
                 onCalculate={handleCalculate}
                 onReset={handleReset}
+                ref={shoppingCartRef}
               >
                 <CartContainer />
               </ShoppingCartProvider>
             </div>
             <div className="p-4">
-              <CartPriceSummaryContainer
-                shoppingCartPrice={shoppingCartPrice}
-              />
+              {isCalculatingCartPrice ? (
+                <div className="flex items-center justify-center h-48 mt-20">
+                  <Loading className="h-24" />
+                </div>
+              ) : (
+                <CartPriceSummaryContainer
+                  shoppingCart={shoppingCart}
+                  shoppingCartPrice={shoppingCartPrice}
+                  onPlaceOrder={handlePlaceOrder}
+                />
+              )}
             </div>
           </div>
         );

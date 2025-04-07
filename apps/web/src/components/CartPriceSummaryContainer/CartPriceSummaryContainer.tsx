@@ -1,12 +1,25 @@
+import { ShoppingCart } from "../../context/shopping-cart-context/shopping-cart-context";
+import { usePlaceOrderMutation } from "../../hooks/usePlaceOrderMutation";
 import { ShoppingCartPrice } from "../../services/orderService";
+import Loading from "../common/Loading";
+import CartPriceDiscountFromMemberCard from "./CartPriceDiscountFromMemberCart";
+import CartPriceDiscountItems from "./CartPriceDiscountItems";
+import CartPriceFinalTotal from "./CartPriceFinalTotal";
+import CartPriceTotalBeforeDiscount from "./CartPriceTotalBeforeDiscount";
+import OrderButton from "./OrderButton";
 
 interface CartPriceSummaryProps {
+  shoppingCart?: ShoppingCart;
   shoppingCartPrice?: ShoppingCartPrice;
+  onPlaceOrder: () => void;
 }
 
 const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
+  shoppingCart,
   shoppingCartPrice,
+  onPlaceOrder,
 }) => {
+  const placeOrderMutation = usePlaceOrderMutation();
   let finalTotalPrice = 0;
 
   if (shoppingCartPrice) {
@@ -19,22 +32,56 @@ const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
       );
   }
 
+  const handleOrderButtonClick = () => {
+    if (shoppingCart) {
+      placeOrderMutation.mutate(shoppingCart, {
+        onSuccess: (data) => {
+          if (data.success) {
+            alert("Order placed successfully");
+          } else {
+            alert(`Error placing order. ${data.message} (${data.errorCode})`);
+          }
+        },
+        onError: (error) => {
+          alert(`Error placing order. ${error.message}`);
+        },
+        onSettled: () => {
+          onPlaceOrder();
+        },
+      });
+    }
+  };
+
   return (
     <>
-      <h2 className="text-center text-xl font-medium">Calculate Total</h2>
+      <h2 className="text-left text-xl font-bold">Calculate Total</h2>
       <div>
-        <p>Total (before discount)</p>
-        <p>{shoppingCartPrice?.totalPriceBeforeDiscount ?? 0}</p>
-      </div>
+        <CartPriceTotalBeforeDiscount
+          value={shoppingCartPrice?.totalPriceBeforeDiscount ?? 0}
+        />
 
-      <div>
-        <p>Discount from Member Card</p>
-        <p>{shoppingCartPrice?.discountFromMemberCard ?? 0}</p>
-      </div>
+        <CartPriceDiscountItems
+          discountItems={shoppingCartPrice?.discountItems ?? []}
+        />
 
-      <div>
-        <p>Final Total</p>
-        <p>{finalTotalPrice}</p>
+        <CartPriceDiscountFromMemberCard
+          value={shoppingCartPrice?.discountFromMemberCard ?? 0}
+        />
+
+        <CartPriceFinalTotal value={finalTotalPrice} />
+      </div>
+      <div className="text-right">
+        {placeOrderMutation.isPending && (
+          <div className="flex items-center pr-10">
+            <Loading className="h-12 ml-auto" />
+          </div>
+        )}
+        {!placeOrderMutation.isPending && (
+          <OrderButton
+            onClick={handleOrderButtonClick}
+            disabled={!shoppingCart}
+          />
+        )}
       </div>
     </>
   );

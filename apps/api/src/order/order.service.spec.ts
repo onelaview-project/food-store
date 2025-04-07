@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OrderItemEntity } from './order-item.entity';
+import { OrderItemEntity } from './entities/order-item.entity';
 import { OrderService } from './order.service';
 import { DiscountService } from '../discount/discount.service';
 

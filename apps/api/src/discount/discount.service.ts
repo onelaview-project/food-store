@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { DiscountCampaignCalculatorAbstract } from 'discount-campaign/discount-campaign-calculators/discount-campaign-calculator.abstract';
-import { OrderItemEntity } from 'order/order-item.entity';
+import { OrderItemEntity } from 'order/entities/order-item.entity';
 
 @Injectable()
 export class DiscountService {

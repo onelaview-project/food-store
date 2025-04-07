@@ -2,7 +2,7 @@ import { createContext, use } from "react";
 import { Product } from "../../services/productService";
 
 export interface ProductsContextType {
-  products?: Product[];
+  products: Product[];
   isPending: boolean;
   error: Error | null;
 }

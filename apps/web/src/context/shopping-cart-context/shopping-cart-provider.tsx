@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { RefObject, useImperativeHandle, useState } from "react";
 import {
   ShoppingCartContext,
   ShoppingCartContextType,
@@ -6,11 +6,16 @@ import {
 } from "./shopping-cart-context";
 import { Product } from "../../services/productService";
 
+export interface ShoppingCartRef {
+  resetCard: () => void;
+}
+
 interface ShoppingCartProviderProps {
   products: Product[];
   onCalculate: (shoppingCartState: ShoppingCart) => void;
   onReset: () => void;
   children: React.ReactNode;
+  ref: RefObject<ShoppingCartRef>;
 }
 
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
@@ -18,11 +23,21 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
   onCalculate,
   onReset,
   children,
+  ref,
 }) => {
   const [shoppingCart, setShoppingCart] = useState<ShoppingCart>({
     memberCardNumber: "",
     items: [],
   });
+
+  useImperativeHandle(ref, () => ({
+    resetCard: () => {
+      setShoppingCart({
+        items: [],
+        memberCardNumber: "",
+      });
+    },
+  }));
 
   const contextValue: ShoppingCartContextType = {
     shoppingCart,

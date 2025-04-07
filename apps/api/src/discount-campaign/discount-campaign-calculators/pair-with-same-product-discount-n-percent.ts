@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DiscountCampaignCalculatorAbstract } from './discount-campaign-calculator.abstract';
-import { OrderItemEntity } from 'order/order-item.entity';
+import { OrderItemEntity } from 'order/entities/order-item.entity';
 
 // This class calculates the discount for a pair of the same product
 // with a discount of N percent.

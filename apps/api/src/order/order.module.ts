@@ -3,10 +3,11 @@ import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
 import { ProductModule } from 'product/product.module';
 import { DiscountModule } from 'discount/discount.module';
+import { RedisProvider } from './redis/redis.provider';
 
 @Module({
   imports: [ProductModule, DiscountModule],
   controllers: [OrderController],
-  providers: [OrderService],
+  providers: [RedisProvider, OrderService],
 })
 export class OrderModule {}

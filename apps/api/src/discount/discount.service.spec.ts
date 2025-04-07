@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DiscountService } from './discount.service';
 import { DiscountCampaignCalculatorAbstract } from 'discount-campaign/discount-campaign-calculators/discount-campaign-calculator.abstract';
-import { OrderItemEntity } from 'order/order-item.entity';
+import { OrderItemEntity } from 'order/entities/order-item.entity';
 
 describe('DiscountService', () => {
   let discountService: DiscountService;

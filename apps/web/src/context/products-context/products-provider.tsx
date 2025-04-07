@@ -1,5 +1,5 @@
 import { ProductsContext, ProductsContextType } from "./products-context";
-import { useProducts } from "../../hooks/useProducts";
+import { useProductsQuery } from "../../hooks/useProductsQuery";
 
 interface ProductsProviderProps {
   children: (productContext: ProductsContextType) => React.ReactNode;
@@ -8,7 +8,7 @@ interface ProductsProviderProps {
 export const ProductsProvider: React.FC<ProductsProviderProps> = ({
   children,
 }) => {
-  const productContext: ProductsContextType = useProducts();
+  const productContext: ProductsContextType = useProductsQuery();
 
   return (
     <ProductsContext.Provider value={productContext}>
