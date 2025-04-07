@@ -26,6 +26,7 @@ describe('PairWithSameProductDiscountNPercentCalculator', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: [],
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 1,
       };
@@ -46,6 +47,7 @@ describe('PairWithSameProductDiscountNPercentCalculator', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: [],
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 2,
       };
@@ -66,6 +68,7 @@ describe('PairWithSameProductDiscountNPercentCalculator', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: [],
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 3,
       };
@@ -86,6 +89,7 @@ describe('PairWithSameProductDiscountNPercentCalculator', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: [],
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 4,
       };

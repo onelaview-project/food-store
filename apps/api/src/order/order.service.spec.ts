@@ -17,6 +17,10 @@ describe('OrderService', () => {
               calculateOrderItemDiscount: jest.fn().mockReturnValue(3),
             },
           },
+          {
+            provide: 'REDIS_CLIENT',
+            useValue: {},
+          },
         ],
       }).compile();
 
@@ -31,6 +35,7 @@ describe('OrderService', () => {
             name: 'Dummy Product 1',
             price: 100,
             discountCampaigns: ['MOCK_DISCOUNT_CAMPAIGN_CALCULATOR'], // Eligible for discount
+            imageUrl: 'https://dummyimage.com/100x100/000/fff',
           },
           quantity: 2,
         },
@@ -40,6 +45,7 @@ describe('OrderService', () => {
             name: 'Dummy Product 2',
             price: 200,
             discountCampaigns: [], // NOT eligible for discount
+            imageUrl: 'https://dummyimage.com/100x100/000/fff',
           },
           quantity: 2,
         },

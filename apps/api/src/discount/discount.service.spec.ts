@@ -35,6 +35,7 @@ describe('DiscountService', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: ['MOCK_DISCOUNT_CAMPAIGN_CALCULATOR'], // Eligible for discount
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 2,
       };
@@ -60,6 +61,7 @@ describe('DiscountService', () => {
           name: 'Dummy Product',
           price: 100,
           discountCampaigns: [], // NOT eligible for discount
+          imageUrl: 'https://dummyimage.com/100x100/000/fff',
         },
         quantity: 2,
       };
