@@ -1,4 +1,4 @@
-import { useShoppingCartContext } from "../context/shopping-cart-context/shopping-cart-context";
+import { useShoppingCartContext } from "../../context/shopping-cart-context/shopping-cart-context";
 
 const ResetCartButton: React.FC = () => {
   const { reset } = useShoppingCartContext();

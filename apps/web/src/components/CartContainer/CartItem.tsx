@@ -1,5 +1,5 @@
-import { useShoppingCartContext } from "../context/shopping-cart-context/shopping-cart-context";
-import { Product } from "../services/productService";
+import { useShoppingCartContext } from "../../context/shopping-cart-context/shopping-cart-context";
+import { Product } from "../../services/productService";
 
 interface CartItemProps {
   product: Product;

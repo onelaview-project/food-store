@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./App.css";
-import CartContainer from "./components/CartContainer";
 import CartPriceSummaryContainer from "./components/CartPriceSummaryContainer/CartPriceSummaryContainer";
 import { ProductsProvider } from "./context/products-context/products-provider";
 import { ShoppingCartProvider } from "./context/shopping-cart-context/shopping-cart-provider";
 import { ShoppingCart } from "./context/shopping-cart-context/shopping-cart-context";
 import { useCalculateShoppingCartPrice } from "./hooks/useCalculateShoppingCartPrice";
+import CartContainer from "./components/CartContainer/CartContainer";
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState<ShoppingCart | undefined>(

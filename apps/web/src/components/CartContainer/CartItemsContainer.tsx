@@ -1,4 +1,4 @@
-import { useProductsContext } from "../context/products-context/products-context";
+import { useProductsContext } from "../../context/products-context/products-context";
 import CartItem from "./CartItem";
 
 const CartItemsContainer: React.FC = () => {
@@ -18,6 +18,6 @@ const CartItemsContainer: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default CartItemsContainer;
