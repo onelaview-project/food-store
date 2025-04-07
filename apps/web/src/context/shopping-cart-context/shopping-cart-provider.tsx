@@ -8,24 +8,24 @@ import { Product } from "../../services/productService";
 
 interface ShoppingCartProviderProps {
   products: Product[];
-  onCalculate: (cartItems: CartItem[]) => void;
-  onReset: () => void;
+  onCalculate: (cartItems: CartItem[], memberNumber: string) => void;
   children: React.ReactNode;
 }
 
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
   products,
   onCalculate,
-  onReset,
   children,
 }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [memberNumber, setMemberNumber] = useState<string>("");
 
   const contextValue: ShoppingCartContextType = {
     cartItems,
+    memberNumber,
     reset: () => {
       setCartItems([]);
-      onReset();
+      setMemberNumber("");
     },
     addToCart: (productId: string) => {
       const cartItem = cartItems.find((item) => item.productId === productId);
@@ -63,8 +63,9 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
           .filter((item) => item.quantity > 0);
       });
     },
+    setMemberNumber,
     calculatePrice: () => {
-      onCalculate(cartItems);
+      onCalculate(cartItems, memberNumber);
     },
   };
 
