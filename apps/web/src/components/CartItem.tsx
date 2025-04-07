@@ -7,7 +7,7 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ product }) => {
   const {
-    shoppingCart: { cartItems },
+    shoppingCart: { items: cartItems },
     addToCart,
     removeFromCart,
   } = useShoppingCartContext();

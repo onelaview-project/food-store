@@ -6,8 +6,8 @@ export interface CartItem {
 }
 
 export interface ShoppingCart {
-  memberNumber: string;
-  cartItems: CartItem[];
+  memberCardNumber: string;
+  items: CartItem[];
 }
 
 export interface ShoppingCartContextType {
@@ -19,17 +19,9 @@ export interface ShoppingCartContextType {
   calculatePrice: () => void;
 }
 
-export const ShoppingCartContext = createContext<ShoppingCartContextType>({
-  shoppingCart: {
-    memberNumber: "",
-    cartItems: [],
-  },
-  reset: () => {},
-  addToCart: () => {},
-  removeFromCart: () => {},
-  setMemberNumber: () => {},
-  calculatePrice: () => {},
-});
+export const ShoppingCartContext = createContext<ShoppingCartContextType>(
+  {} as ShoppingCartContextType,
+);
 
 export const useShoppingCartContext = () => {
   return use(ShoppingCartContext)

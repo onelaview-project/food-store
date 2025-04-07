@@ -32,6 +32,7 @@ export class OrderService {
     const [discountItems, totalDiscountPrice] =
       this.#calculateDiscountItemsAndTotalDiscountPrice(input.items);
 
+    // TODO: Move this to discount service
     const discountFromMemberCard = input.memberCardNumber
       ? (totalPriceBeforeDiscount - totalDiscountPrice) * 0.1
       : 0;

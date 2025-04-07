@@ -2,16 +2,18 @@ import { useProductsContext } from "../context/products-context/products-context
 import CartItem from "./CartItem";
 
 const CartItemsContainer: React.FC = () => {
-  const { products, isLoading, error } = useProductsContext()
+  const { products, isPending, error } = useProductsContext();
 
   return (
     <div className="shadow-md">
-      {isLoading && <p>Loading...</p>}
+      {isPending && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
       {products && products.length === 0 && <p>No products available</p>}
       {products && products.length > 0 && (
         <ul>
-          {products.map(product => <CartItem key={product.id} product={product} />)}
+          {products.map((product) => (
+            <CartItem key={product.id} product={product} />
+          ))}
         </ul>
       )}
     </div>

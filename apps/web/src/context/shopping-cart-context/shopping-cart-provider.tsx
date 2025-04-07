@@ -9,35 +9,38 @@ import { Product } from "../../services/productService";
 interface ShoppingCartProviderProps {
   products: Product[];
   onCalculate: (shoppingCartState: ShoppingCart) => void;
+  onReset: () => void;
   children: React.ReactNode;
 }
 
 export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
   products,
   onCalculate,
+  onReset,
   children,
 }) => {
   const [shoppingCart, setShoppingCart] = useState<ShoppingCart>({
-    memberNumber: "",
-    cartItems: [],
+    memberCardNumber: "",
+    items: [],
   });
 
   const contextValue: ShoppingCartContextType = {
     shoppingCart,
     reset: () => {
       setShoppingCart({
-        cartItems: [],
-        memberNumber: "",
+        items: [],
+        memberCardNumber: "",
       });
+      onReset();
     },
     addToCart: (productId: string) => {
-      const cartItem = shoppingCart.cartItems.find(
+      const cartItem = shoppingCart.items.find(
         (item) => item.productId === productId,
       );
       if (cartItem) {
         setShoppingCart((prev) => ({
           ...prev,
-          cartItems: prev.cartItems.map((item) => {
+          items: prev.items.map((item) => {
             if (item === cartItem) {
               return { ...item, quantity: item.quantity + 1 };
             }
@@ -49,13 +52,13 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         if (product) {
           setShoppingCart((prev) => ({
             ...prev,
-            cartItems: [...prev.cartItems, { productId, quantity: 1 }],
+            items: [...prev.items, { productId, quantity: 1 }],
           }));
         }
       }
     },
     removeFromCart: (productId: string) => {
-      const cartItem = shoppingCart.cartItems.find(
+      const cartItem = shoppingCart.items.find(
         (item) => item.productId === productId,
       );
       if (!cartItem) {
@@ -64,7 +67,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
 
       setShoppingCart((prev) => ({
         ...prev,
-        cartItems: prev.cartItems
+        items: prev.items
           .map((item) => {
             if (item === cartItem) {
               return { ...item, quantity: item.quantity - 1 };
@@ -77,7 +80,7 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     setMemberNumber: (memberNumber: string) => {
       setShoppingCart((prev) => ({
         ...prev,
-        memberNumber,
+        memberCardNumber: memberNumber,
       }));
     },
     calculatePrice: () => {

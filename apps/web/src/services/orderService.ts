@@ -18,8 +18,8 @@ export const postCalculateShoppingCartPrice = async (
   const response = await http.post<ShoppingCartPrice>(
     "/orders/calculate-price",
     {
-      items: shoppingCart.cartItems,
-      memberNumber: shoppingCart.memberNumber || null,
+      items: shoppingCart.items,
+      memberCardNumber: shoppingCart.memberCardNumber || null,
     },
   );
 

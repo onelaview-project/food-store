@@ -7,8 +7,8 @@ export interface ProductsContextType {
   error: Error | null;
 }
 
-export const ProductsContext = createContext<ProductsContextType | undefined>(
-  undefined,
+export const ProductsContext = createContext<ProductsContextType>(
+  {} as ProductsContextType,
 );
 
 export const useProductsContext = () => {

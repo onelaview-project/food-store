@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import CartContainer from "./components/CartContainer";
-import CartPriceSummary from "./components/CartPriceSummary";
+import CartPriceSummaryContainer from "./components/CartPriceSummaryContainer/CartPriceSummaryContainer";
 import { ProductsProvider } from "./context/products-context/products-provider";
 import { ShoppingCartProvider } from "./context/shopping-cart-context/shopping-cart-provider";
 import { ShoppingCart } from "./context/shopping-cart-context/shopping-cart-context";
@@ -16,9 +16,13 @@ function App() {
 
   const handleCalculate = (shoppingCart: ShoppingCart) => {
     console.log("Calculating price...");
-    console.log("Member Number:", shoppingCart.memberNumber);
-    console.log("Cart Items:", shoppingCart.cartItems);
+    console.log("Member Number:", shoppingCart.memberCardNumber);
+    console.log("Cart Items:", shoppingCart.items);
     setShoppingCart(shoppingCart);
+  };
+
+  const handleReset = () => {
+    setShoppingCart(undefined);
   };
 
   return (
@@ -38,12 +42,15 @@ function App() {
               <ShoppingCartProvider
                 products={products ?? []}
                 onCalculate={handleCalculate}
+                onReset={handleReset}
               >
                 <CartContainer />
               </ShoppingCartProvider>
             </div>
             <div className="p-4">
-              <CartPriceSummary shoppingCartPrice={shoppingCartPrice} />
+              <CartPriceSummaryContainer
+                shoppingCartPrice={shoppingCartPrice}
+              />
             </div>
           </div>
         );

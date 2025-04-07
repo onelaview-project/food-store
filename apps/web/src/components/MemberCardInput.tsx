@@ -2,7 +2,7 @@ import { useShoppingCartContext } from "../context/shopping-cart-context/shoppin
 
 const MemberCardInput: React.FC = () => {
   const {
-    shoppingCart: { memberNumber },
+    shoppingCart: { memberCardNumber: memberNumber },
     setMemberNumber,
   } = useShoppingCartContext();
 
