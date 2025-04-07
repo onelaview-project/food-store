@@ -54,10 +54,10 @@ export class OrderService {
   ): [DiscountItem[], number] {
     let totalDiscountPrice = 0;
 
-    // Filter only order items that contain a product with discount campaign
-    // and calculate the discount for each of them
     const discountItems = items
+      // Filter only order items that contain a product with discount campaign
       .filter((item) => item.product.discountCampaigns.length > 0)
+      // and calculate the discount for each of them
       .map((item) => {
         const discountItem = {
           productId: item.product.id,
@@ -70,7 +70,9 @@ export class OrderService {
         totalDiscountPrice += discountItem.discount;
 
         return discountItem;
-      });
+      })
+      // filter out items with no discount
+      .filter((item) => item.discount > 0);
 
     return [discountItems, totalDiscountPrice];
   }

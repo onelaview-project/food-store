@@ -1,14 +1,14 @@
 import { useState } from "react";
 import {
-  CartItem,
   ShoppingCartContext,
   ShoppingCartContextType,
+  ShoppingCart,
 } from "./shopping-cart-context";
 import { Product } from "../../services/productService";
 
 interface ShoppingCartProviderProps {
   products: Product[];
-  onCalculate: (cartItems: CartItem[], memberNumber: string) => void;
+  onCalculate: (shoppingCartState: ShoppingCart) => void;
   children: React.ReactNode;
 }
 
@@ -17,55 +17,71 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
   onCalculate,
   children,
 }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [memberNumber, setMemberNumber] = useState<string>("");
+  const [shoppingCart, setShoppingCart] = useState<ShoppingCart>({
+    memberNumber: "",
+    cartItems: [],
+  });
 
   const contextValue: ShoppingCartContextType = {
-    cartItems,
-    memberNumber,
+    shoppingCart,
     reset: () => {
-      setCartItems([]);
-      setMemberNumber("");
+      setShoppingCart({
+        cartItems: [],
+        memberNumber: "",
+      });
     },
     addToCart: (productId: string) => {
-      const cartItem = cartItems.find((item) => item.productId === productId);
+      const cartItem = shoppingCart.cartItems.find(
+        (item) => item.productId === productId,
+      );
       if (cartItem) {
-        setCartItems((prev) => {
-          return prev.map((item) => {
-            if (item.productId === productId) {
+        setShoppingCart((prev) => ({
+          ...prev,
+          cartItems: prev.cartItems.map((item) => {
+            if (item === cartItem) {
               return { ...item, quantity: item.quantity + 1 };
             }
             return item;
-          });
-        });
+          }),
+        }));
       } else {
         const product = products?.find((product) => product.id === productId);
         if (product) {
-          setCartItems((prev) => [...prev, { productId, quantity: 1 }]);
+          setShoppingCart((prev) => ({
+            ...prev,
+            cartItems: [...prev.cartItems, { productId, quantity: 1 }],
+          }));
         }
       }
     },
     removeFromCart: (productId: string) => {
-      const cartItem = cartItems.find((item) => item.productId === productId);
+      const cartItem = shoppingCart.cartItems.find(
+        (item) => item.productId === productId,
+      );
       if (!cartItem) {
         return;
       }
 
-      setCartItems((prev) => {
-        return prev
+      setShoppingCart((prev) => ({
+        ...prev,
+        cartItems: prev.cartItems
           .map((item) => {
-            if (item.productId === productId) {
+            if (item === cartItem) {
               return { ...item, quantity: item.quantity - 1 };
-            } else {
-              return item;
             }
+            return item;
           })
-          .filter((item) => item.quantity > 0);
-      });
+          .filter((item) => item.quantity > 0),
+      }));
     },
-    setMemberNumber,
+    setMemberNumber: (memberNumber: string) => {
+      setShoppingCart((prev) => ({
+        ...prev,
+        memberNumber,
+      }));
+    },
     calculatePrice: () => {
-      onCalculate(cartItems, memberNumber);
+      onCalculate(shoppingCart);
     },
   };
 

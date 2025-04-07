@@ -1,7 +1,10 @@
 import { useShoppingCartContext } from "../context/shopping-cart-context/shopping-cart-context";
 
 const MemberCardInput: React.FC = () => {
-  const { memberNumber, setMemberNumber } = useShoppingCartContext();
+  const {
+    shoppingCart: { memberNumber },
+    setMemberNumber,
+  } = useShoppingCartContext();
 
   return (
     <div className="flex flex-col p-2 my-2">

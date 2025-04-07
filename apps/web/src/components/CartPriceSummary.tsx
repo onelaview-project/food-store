@@ -1,9 +1,17 @@
-const CartPriceSummary: React.FC = () => {
+import { ShoppingCartPrice } from "../services/orderService";
+
+interface CartPriceSummaryProps {
+  shoppingCartPrice?: ShoppingCartPrice;
+}
+
+const CartPriceSummary: React.FC<CartPriceSummaryProps> = ({
+  shoppingCartPrice,
+}) => {
   return (
     <>
-      <h1>CartPriceSummary</h1>
+      <h2 className="text-center text-xl font-medium">Calculate Total</h2>
     </>
   );
-}
+};
 
 export default CartPriceSummary;

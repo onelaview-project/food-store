@@ -5,9 +5,13 @@ export interface CartItem {
   quantity: number
 }
 
-export interface ShoppingCartContextType {
-  cartItems: CartItem[];
+export interface ShoppingCart {
   memberNumber: string;
+  cartItems: CartItem[];
+}
+
+export interface ShoppingCartContextType {
+  shoppingCart: ShoppingCart;
   reset: () => void;
   addToCart: (productId: string) => void;
   removeFromCart: (productId: string) => void;
@@ -16,8 +20,10 @@ export interface ShoppingCartContextType {
 }
 
 export const ShoppingCartContext = createContext<ShoppingCartContextType>({
-  cartItems: [],
-  memberNumber: "",
+  shoppingCart: {
+    memberNumber: "",
+    cartItems: [],
+  },
   reset: () => {},
   addToCart: () => {},
   removeFromCart: () => {},

@@ -3,15 +3,13 @@ import { Product } from "../../services/productService";
 
 export interface ProductsContextType {
   products?: Product[];
-  isLoading: boolean;
+  isPending: boolean;
   error: Error | null;
 }
 
-export const ProductsContext = createContext<ProductsContextType>({
-  products: [],
-  isLoading: false,
-  error: null,
-})
+export const ProductsContext = createContext<ProductsContextType | undefined>(
+  undefined,
+);
 
 export const useProductsContext = () => {
   return use(ProductsContext)
