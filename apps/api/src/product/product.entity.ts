@@ -3,4 +3,5 @@ export interface ProductEntity {
   name: string;
   price: number;
   discountCampaigns: string[];
+  imageUrl: string;
 }

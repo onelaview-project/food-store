@@ -7,7 +7,9 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  listProducts(): Promise<ProductEntity[]> {
+  async listProducts(): Promise<ProductEntity[]> {
+    await new Promise((resolve) => setTimeout(resolve, 1300)); // Simulate a delay
+    // throw new Error('Error fetching products'); // Simulate an error
     return this.productService.findAll();
   }
 }

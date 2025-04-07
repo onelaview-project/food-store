@@ -15,6 +15,9 @@ export class Product {
     type: [{ type: String, ref: 'DiscountCampaign' }],
   })
   discountCampaigns: string[];
+
+  @Prop({ required: true })
+  imageUrl: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
