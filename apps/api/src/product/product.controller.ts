@@ -8,7 +8,7 @@ export class ProductController {
 
   @Get()
   async listProducts(): Promise<ProductEntity[]> {
-    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
     // throw new Error('Error fetching products'); // Simulate an error
     return this.productService.findAll();
   }

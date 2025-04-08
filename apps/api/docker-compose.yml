@@ -1,0 +1,21 @@
+services:
+  mongodb:
+    image: mongo:8.0
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DB_NAME}
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    command: ['redis-server', '--requirepass', '${REDIS_PASSWORD}']
+
+volumes:
+  mongodb_data:
+  redis-data:

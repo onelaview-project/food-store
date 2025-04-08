@@ -19,6 +19,12 @@
     },
     "seed": {
       "cache": false
+    },
+    "compose:up": {
+      "cache": false
+    },
+    "compose:down": {
+      "cache": false
     }
   }
 }

@@ -1,12 +1,12 @@
 import { ShoppingCart } from "../../context/shopping-cart-context/shopping-cart-context";
 import { usePlaceOrderMutation } from "../../hooks/usePlaceOrderMutation";
 import { ShoppingCartPrice } from "../../services/orderService";
+import Button from "../common/Button";
 import Loading from "../common/Loading";
 import CartPriceDiscountFromMemberCard from "./CartPriceDiscountFromMemberCart";
 import CartPriceDiscountItems from "./CartPriceDiscountItems";
 import CartPriceFinalTotal from "./CartPriceFinalTotal";
 import CartPriceTotalBeforeDiscount from "./CartPriceTotalBeforeDiscount";
-import OrderButton from "./OrderButton";
 
 interface CartPriceSummaryProps {
   shoppingCart?: ShoppingCart;
@@ -77,10 +77,13 @@ const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
           </div>
         )}
         {!placeOrderMutation.isPending && (
-          <OrderButton
+          <Button
+            className="bg-red-500 hover:bg-red-700 text-2xl px-8 font-extrabold"
             onClick={handleOrderButtonClick}
             disabled={!shoppingCart}
-          />
+          >
+            Order
+          </Button>
         )}
       </div>
     </>

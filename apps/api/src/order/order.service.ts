@@ -35,6 +35,8 @@ export class OrderService {
   }
 
   async placeOrder(order: OrderEntity) {
+    // No logic to place order into database yet. It is just for demonstrating a logic
+    // to prevent ordering a "Red set" product more than once in an hour by locking it in Redis
     const RED_SET_PRODUCT_ID = '67f0f3549aa2cccf1c80ebf1';
     if (order.items.find((item) => item.product.id === RED_SET_PRODUCT_ID)) {
       if (await this.redis.get('order:red_set')) {

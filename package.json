@@ -2,6 +2,8 @@
   "name": "food-store",
   "private": true,
   "scripts": {
+    "compose:up": "turbo run compose:up --filter=@food-store/api...",
+    "compose:down": "turbo run compose:down --filter=@food-store/api...",
     "seed": "turbo run seed --filter=@food-store/api...",
     "build": "turbo run build",
     "start:dev": "turbo run start:dev",
