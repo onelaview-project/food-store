@@ -6,6 +6,7 @@
   "author": "Nitipon Suratwisit",
   "scripts": {
     "compose:up": "docker-compose -f docker-compose.yml up -d",
+    "compose:down": "docker-compose -f docker-compose.yml down -v",
     "seed": "ts-node -r tsconfig-paths/register src/seed/index.ts",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

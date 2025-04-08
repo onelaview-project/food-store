@@ -13,7 +13,6 @@
    This will run MongoDB and Redis as Docker containers in your local host.
 
 3. Run `npm run seed` to seed data (i.e. project items) into the MongoDB.
-   It's required to run once before running the app in the next step.
 
 4. Run `npm run start:dev`
    This will run both backend API (Nest.js app) and frontend web (Vite/React app) altogether.
