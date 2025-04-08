@@ -1,8 +1,8 @@
 import { createContext, use } from "react";
 
 export interface CartItem {
-  productId: string
-  quantity: number
+  productId: string;
+  quantity: number;
 }
 
 export interface ShoppingCart {
@@ -24,5 +24,5 @@ export const ShoppingCartContext = createContext<ShoppingCartContextType>(
 );
 
 export const useShoppingCartContext = () => {
-  return use(ShoppingCartContext)
-}
+  return use(ShoppingCartContext);
+};

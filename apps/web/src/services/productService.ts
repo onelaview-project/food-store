@@ -9,6 +9,6 @@ export interface Product {
 }
 
 export const fetchProducts = async (): Promise<Product[]> => {
-  const response = await http.get<Product[]>('/products');
+  const response = await http.get<Product[]>("/products");
   return response.data;
 };

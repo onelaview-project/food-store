@@ -12,5 +12,5 @@ export const ProductsContext = createContext<ProductsContextType>(
 );
 
 export const useProductsContext = () => {
-  return use(ProductsContext)
-}
+  return use(ProductsContext);
+};
