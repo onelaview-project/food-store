@@ -24,3 +24,8 @@ Once done, please run `npm run compose:down` to tear down all running Docker com
 ## Steps to Run Unit Test
 
 1. Run `npm run test`.
+
+
+## Noteworthy
+
+Please note that there is *.env* files in the */apps/api/* and */apps/web/* for configuration. Practically, this file should not be committed in the repository. However, for help running the app easily, I decided to commit it into the repository.
