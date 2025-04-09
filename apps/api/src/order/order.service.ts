@@ -36,16 +36,27 @@ export class OrderService {
 
   async placeOrder(order: OrderEntity) {
     // No logic to place order into database yet. It is just for demonstrating a logic
-    // to prevent ordering a "Red set" product more than once in an hour by locking it in Redis
+    // to prevent ordering a "Red set" product more than once in an hour by locking it in Redis.
+
+    // Hard code "Red set" product id and its limit setting here for now.
+    // In real world, we should get it as setting from database.
     const RED_SET_PRODUCT_ID = '67f0f3549aa2cccf1c80ebf1';
+    const LIMIT = 1;
+
+    // If the order contains a "Red set" product, we need to check if it is already ordered in the last hour.
     if (order.items.find((item) => item.product.id === RED_SET_PRODUCT_ID)) {
-      if (await this.redis.get('order:red_set')) {
+      const key = `order:${RED_SET_PRODUCT_ID}`;
+      const count = await this.redis.incr(key);
+      if (count === 1) {
+        await this.redis.expire(key, 60 * 60); // 1 hour TTL
+      }
+
+      // If there has been a "Red set" product ordered in the last hour, throw an error.
+      if (count > LIMIT) {
         throw new ProductNotAvailableError(
           'Red set product is currently out of stock',
         );
       }
-
-      await this.redis.set('order:red_set', 1, 'EX', 60 * 60); // 1 hour
     }
   }
 
