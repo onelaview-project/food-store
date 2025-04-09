@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { ShoppingCart } from "../../context/shopping-cart-context/shopping-cart-context";
 import { usePlaceOrderMutation } from "../../hooks/usePlaceOrderMutation";
 import { ShoppingCartPrice } from "../../services/orderService";
@@ -7,6 +8,7 @@ import CartPriceDiscountFromMemberCard from "./CartPriceDiscountFromMemberCart";
 import CartPriceDiscountItems from "./CartPriceDiscountItems";
 import CartPriceFinalTotal from "./CartPriceFinalTotal";
 import CartPriceTotalBeforeDiscount from "./CartPriceTotalBeforeDiscount";
+import PlaceOrderResultModal from "../PlaceOrderResultModal";
 
 interface CartPriceSummaryProps {
   shoppingCart?: ShoppingCart;
@@ -14,12 +16,22 @@ interface CartPriceSummaryProps {
   onPlaceOrder: () => void;
 }
 
+export interface PlaceOrderResult {
+  message: string;
+  error?: string;
+}
+
 const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
   shoppingCart,
   shoppingCartPrice,
   onPlaceOrder,
 }) => {
+  const [placeOrderResult, setPlaceOrderResult] = useState<
+    PlaceOrderResult | undefined
+  >();
   const placeOrderMutation = usePlaceOrderMutation();
+  const shoppingCartItemAmount =
+    shoppingCart?.items.reduce((acc, item) => acc + item.quantity, 0) ?? 0;
   let finalTotalPrice = 0;
 
   if (shoppingCartPrice) {
@@ -37,24 +49,42 @@ const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
       placeOrderMutation.mutate(shoppingCart, {
         onSuccess: (data) => {
           if (data.success) {
-            alert("Order placed successfully");
+            setPlaceOrderResult({
+              message: data.message,
+            });
           } else {
-            alert(`Error placing order. ${data.message} (${data.errorCode})`);
+            setPlaceOrderResult({
+              message: data.message,
+              error: data.errorCode,
+            });
           }
         },
         onError: (error) => {
-          alert(`Error placing order. ${error.message}`);
-        },
-        onSettled: () => {
-          onPlaceOrder();
+          setPlaceOrderResult({
+            message: error.message,
+            error: "UnknownError",
+          });
         },
       });
     }
   };
 
+  const handleModalRequestClose = () => {
+    setPlaceOrderResult(undefined);
+    if (!placeOrderResult?.error) {
+      onPlaceOrder();
+    }
+  };
+
   return (
     <>
-      <h2 className="text-left text-xl font-bold">Calculate Total</h2>
+      <h2 className="text-left text-xl font-bold">
+        Calculate Total{" "}
+        <span className="text-base">
+          ({shoppingCartItemAmount} item
+          {shoppingCartItemAmount > 1 ? "s" : ""})
+        </span>
+      </h2>
       <div>
         <CartPriceTotalBeforeDiscount
           value={shoppingCartPrice?.totalPriceBeforeDiscount ?? 0}
@@ -78,7 +108,7 @@ const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
         )}
         {!placeOrderMutation.isPending && (
           <Button
-            className="bg-red-500 hover:bg-red-700 text-2xl px-8 font-extrabold"
+            className="bg-red-500 hover:bg-red-700 text-2xl font-extrabold px-8 py-1 m-1"
             onClick={handleOrderButtonClick}
             disabled={!shoppingCart}
           >
@@ -86,6 +116,10 @@ const CartPriceSummaryContainer: React.FC<CartPriceSummaryProps> = ({
           </Button>
         )}
       </div>
+      <PlaceOrderResultModal
+        result={placeOrderResult}
+        onRequestClose={handleModalRequestClose}
+      />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { useShoppingCartContext } from "../../context/shopping-cart-context/shopping-cart-context";
 import { Product } from "../../services/productService";
+import Button from "../common/Button";
 
 interface CartItemProps {
   product: Product;
@@ -26,19 +27,19 @@ const CartItem: React.FC<CartItemProps> = ({ product }) => {
         <span className="text-gray-500 text-sm">${product.price}</span>
       </div>
       <div className="flex-1 flex items-center ml-auto gap-2">
-        <button
-          className="bg-blue-300 hover:bg-blue-600 text-white w-8 h-8 rounded-full text-lg transition-colors duration-300"
+        <Button
+          className="w-8 h-8 text-lg"
           onClick={() => removeFromCart(product.id)}
         >
           -
-        </button>
+        </Button>
         <span className="w-6 text-center">{quantity}</span>
-        <button
-          className="bg-blue-300 hover:bg-blue-600 text-white w-8 h-8 rounded-full text-lg transition-colors duration-300"
+        <Button
+          className="w-8 h-8 text-lg"
           onClick={() => addToCart(product.id)}
         >
           +
-        </button>
+        </Button>
       </div>
     </div>
   );

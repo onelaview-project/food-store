@@ -54,7 +54,7 @@ export class OrderService {
       // If there has been a "Red set" product ordered in the last hour, throw an error.
       if (count > LIMIT) {
         throw new ProductNotAvailableError(
-          'Red set product is currently out of stock',
+          'Red set product is currently out of stock. Please try again later.',
         );
       }
     }

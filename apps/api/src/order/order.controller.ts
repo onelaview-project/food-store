@@ -25,7 +25,7 @@ export class OrderController {
   async calculatePrice(
     @Body() orderDto: OrderInputDto,
   ): Promise<CalculateOrderPriceOutputDto> {
-    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
 
     const orderEntity = await this.#mapOrderInputDtoToOrderEntity(orderDto);
     return this.orderService.calculateOrderPrice(orderEntity);
@@ -35,7 +35,7 @@ export class OrderController {
   async placeOrder(
     @Body() orderDto: OrderInputDto,
   ): Promise<PlaceOrderOutputDto> {
-    // await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
 
     try {
       const orderEntity = await this.#mapOrderInputDtoToOrderEntity(orderDto);

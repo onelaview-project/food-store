@@ -7,7 +7,7 @@ const CartActionsContainer: React.FC = () => {
   return (
     <div className="text-center">
       <Button
-        className="font-semibold text-lg"
+        className="font-semibold text-lg py-1 px-4 m-1"
         disabled={
           shoppingCart.items.length === 0 && !shoppingCart.memberCardNumber
         }
@@ -16,7 +16,7 @@ const CartActionsContainer: React.FC = () => {
         Reset
       </Button>
       <Button
-        className="font-semibold text-lg"
+        className="font-semibold text-lg py-1 px-4 m-1"
         disabled={shoppingCart.items.length === 0}
         onClick={calculatePrice}
       >
