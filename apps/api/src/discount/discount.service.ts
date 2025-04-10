@@ -24,4 +24,10 @@ export class DiscountService {
     // Calculate the discount for the order item using the calculator
     return calculator.calculateDiscount(discountOrderItem, allOrderItems);
   }
+
+  calculateMemberCardDiscount(beforeDiscountPrice: number): number {
+    // Assume a fixed 10% discount for member card holders
+    // In the real world, the discount percentage might be retrieved from a database or configuration
+    return beforeDiscountPrice * 0.1;
+  }
 }

@@ -7,12 +7,14 @@
 
 ## Steps to Run App
 
+At the repository root folder,
+
 1. Run `npm install` to install all project dependencies.
 
-2. Run `npm run compose:up` to run _docker-compose.yml_ in _apps/api/_ folder.
-   This will run MongoDB and Redis as Docker containers in your local host.
+2. Run `npm run compose:up` to run Docker compose from _apps/api/docker-compose.yml_.
+   This will run MongoDB and Redis as Docker containers in your local machine.
 
-3. Run `npm run seed` to seed data (i.e. project items) into the MongoDB.
+3. Run `npm run seed` to seed data (i.e. product items and discount campaign) into the MongoDB.
 
 4. Run `npm run start:dev`
    This will run both backend API (Nest.js app) and frontend web (Vite/React app) altogether.
@@ -24,6 +26,12 @@ Once done, please run `npm run compose:down` to tear down all running Docker com
 ## Steps to Run Unit Test
 
 1. Run `npm run test`.
+   This will run all unit tests in the backend project (i.e. _apps/api/_). No unit test is available in the frontend project yet.
+
+   *Note:* If you want to see unit test results printed out in a Given/When/Then style,
+         you can run:
+         
+         npm run test --workspace=apps/api -- --verbose
 
 
 ## Noteworthy

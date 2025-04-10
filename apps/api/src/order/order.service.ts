@@ -19,12 +19,15 @@ export class OrderService {
       order.items,
     );
 
+    // Calculate the discount for each item and total discount price for all items
     const [discountItems, totalDiscountPrice] =
       this.#calculateDiscountItemsAndTotalDiscountPrice(order.items);
 
-    // TODO: Move this to discount service
+    // If the order has member card number, we need to calculate the discount from it
     const discountFromMemberCard = order.memberCardNumber
-      ? (totalPriceBeforeDiscount - totalDiscountPrice) * 0.1
+      ? this.discountService.calculateMemberCardDiscount(
+          totalPriceBeforeDiscount - totalDiscountPrice,
+        )
       : 0;
 
     return {
