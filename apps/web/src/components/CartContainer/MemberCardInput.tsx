@@ -15,6 +15,7 @@ const MemberCardInput: React.FC = () => {
         id="member-number"
         inputMode="numeric"
         pattern="^\d+$"
+        maxLength={20}
         value={memberNumber}
         onChange={(event) => setMemberNumber(event.target.value)}
       />

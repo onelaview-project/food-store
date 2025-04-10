@@ -51,6 +51,9 @@ function App() {
         return (
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4">
+              {/* Use ShoppingCartProvider context here to avoid interacting UI on the left panel
+              (i.e. updating product quantity and member card number) causing the "Calculate Total" panel
+              on the right to re-execute its React components function which may degrade performance */}
               <ShoppingCartProvider
                 products={products ?? []}
                 onCalculate={handleCalculate}

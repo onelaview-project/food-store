@@ -53,6 +53,11 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
         (item) => item.productId === productId,
       );
       if (cartItem) {
+        // Not allowing to add more than 99 items per product
+        if (cartItem.quantity >= 99) {
+          return;
+        }
+
         setShoppingCart((prev) => ({
           ...prev,
           items: prev.items.map((item) => {
@@ -95,6 +100,9 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
     setMemberNumber: (memberNumber: string) => {
       // Sanitize the member number to remove non-digit characters
       memberNumber = memberNumber.replace(/\D/g, "");
+
+      // Limit to 20 characters
+      memberNumber = memberNumber.slice(0, 20);
 
       setShoppingCart((prev) => ({
         ...prev,
