@@ -93,6 +93,9 @@ export const ShoppingCartProvider: React.FC<ShoppingCartProviderProps> = ({
       }));
     },
     setMemberNumber: (memberNumber: string) => {
+      // Sanitize the member number to remove non-digit characters
+      memberNumber = memberNumber.replace(/\D/g, "");
+
       setShoppingCart((prev) => ({
         ...prev,
         memberCardNumber: memberNumber,

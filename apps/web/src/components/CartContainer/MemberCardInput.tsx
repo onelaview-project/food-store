@@ -13,6 +13,8 @@ const MemberCardInput: React.FC = () => {
         className="border-1 border-gray-300 rounded-2xl shadow-md p-1"
         type="text"
         id="member-number"
+        inputMode="numeric"
+        pattern="^\d+$"
         value={memberNumber}
         onChange={(event) => setMemberNumber(event.target.value)}
       />
